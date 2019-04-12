@@ -9,4 +9,5 @@ namespace DatingApi.API.Data
 
         public DbSet<Value> Values { get; set; }
     }
+    
 }
