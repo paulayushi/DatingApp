@@ -14,14 +14,18 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-baseUrl = environment.apiUrl;
-constructor(private _http: HttpClient) { }
+  baseUrl = environment.apiUrl;
+  constructor(private _http: HttpClient) { }
 
-getUsers(): Observable<User[]> {
-  return this._http.get<User[]>(this.baseUrl + 'users');
-}
+  getUsers(): Observable<User[]> {
+    return this._http.get<User[]>(this.baseUrl + 'users');
+  }
 
-getUser(id: number): Observable<User> {
-  return this._http.get<User>(this.baseUrl + 'users/' + id);
-}
+  getUser(id: number): Observable<User> {
+    return this._http.get<User>(this.baseUrl + 'users/' + id);
+  }
+
+  updateUser(id: number, user: User){
+    return this._http.put(this.baseUrl + 'users/' + id, user);
+  }
 }
