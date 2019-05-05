@@ -24,9 +24,9 @@ export class AuthService {
     this.photoUrl.next(photoUrl);
   }
 
-  login(model: any) {
+  login(user: User) {
     this.uri = 'login';
-    return this._http.post(this.baseUrl + this.uri, model).pipe(
+    return this._http.post(this.baseUrl + this.uri, user).pipe(
       map((response: any) => {
         if (response) {
           localStorage.setItem('token', response.token);
@@ -39,9 +39,9 @@ export class AuthService {
     );
   }
 
-  register(model: any) {
+  register(user: User) {
     this.uri = 'register';
-    return this._http.post(this.baseUrl + this.uri, model);
+    return this._http.post(this.baseUrl + this.uri, user);
   }
 
   loggedIn(){
