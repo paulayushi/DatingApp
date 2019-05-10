@@ -26,6 +26,11 @@ namespace DatingApi.API.Data
             _context.Remove(entity);
         }
 
+        public async Task<Like> GetLike(int userId, int recipientId)
+        {
+            return await _context.Likes.FirstOrDefaultAsync( u => u.LikerId == userId && u.LikeeId == recipientId);
+        }
+
         public async Task<Photo> GetMainPhotoForUser(int userId)
         {
             return await _context.Photo.Where( u => u.UserId == userId).FirstOrDefaultAsync( p => p.IsMain);
@@ -65,7 +70,29 @@ namespace DatingApi.API.Data
                         break;
                 }
             }
+            if(userParams.Likees)
+            {
+                var likees = await GetLikers(userParams.UserId, userParams.Likers);
+                users = users.Where(u => likees.Contains(u.id));
+            }
+            if(userParams.Likers)
+            {
+                var likers = await GetLikers(userParams.UserId, userParams.Likers);
+                users = users.Where(u => likers.Contains(u.id));
+            }
             return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
+        }
+
+        private async Task<IEnumerable<int>> GetLikers(int userId, bool likers)
+        {
+            var user = await _context.Users.Include(u => u.Likers).Include(u => u.Likees)
+                    .FirstOrDefaultAsync(u=> u.id == userId);
+            if(likers)
+            {
+                return user.Likers.Where(u => u.LikeeId == userId).Select( u => u.LikerId);
+            }
+            else
+                return user.Likees.Where(u => u.LikerId == userId).Select( u => u.LikeeId);
         }
 
         public async Task<bool> SaveAll()

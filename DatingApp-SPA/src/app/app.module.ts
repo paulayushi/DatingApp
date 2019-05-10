@@ -30,6 +30,7 @@ import { MemberEditResolver } from './resolver/member-edit.resolver';
 import { AuthGuard } from './guard/auth.guard';
 import { PreventUnsavedChanges } from './guard/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './photo-editor/photo-editor.component';
+import { ListsResolver } from './resolver/lists.resolver';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -79,6 +80,7 @@ export function tokenGetter() {
       MemberDetailResolver,
       MemberListResolver,
       MemberEditResolver,
+      ListsResolver,
       AuthGuard,
       PreventUnsavedChanges
    ],
