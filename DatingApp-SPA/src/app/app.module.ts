@@ -31,6 +31,8 @@ import { AuthGuard } from './guard/auth.guard';
 import { PreventUnsavedChanges } from './guard/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './photo-editor/photo-editor.component';
 import { ListsResolver } from './resolver/lists.resolver';
+import { MessagesResolver } from './resolver/messages.resolver';
+import { MemberMessagesComponent } from './member-messages/member-messages.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -49,7 +51,8 @@ export function tokenGetter() {
       MemberDetailComponent,
       MemberEditComponent,
       PhotoEditorComponent,
-      TimeAgoPipe
+      TimeAgoPipe,
+      MemberMessagesComponent
    ],
    imports: [
       BrowserModule,
@@ -66,11 +69,11 @@ export function tokenGetter() {
       TabsModule.forRoot(),
       JwtModule.forRoot({
          config: {
-            tokenGetter: tokenGetter,
-            whitelistedDomains: ['localhost:5000'],
-            blacklistedRoutes: ['localhost:5000/api/auth']
+           tokenGetter: tokenGetter,
+           whitelistedDomains: ['localhost:5000'],
+           blacklistedRoutes: ['localhost:5000/api/auth']
          }
-      })
+       })
    ],
    providers: [
       AuthService,
@@ -81,6 +84,7 @@ export function tokenGetter() {
       MemberListResolver,
       MemberEditResolver,
       ListsResolver,
+      MessagesResolver,
       AuthGuard,
       PreventUnsavedChanges
    ],
